@@ -1,5 +1,7 @@
 import tkinter as tk
 import random
+
+from click import command
 from tkinter import ttk
 from tkinter.messagebox import showinfo
 
@@ -13,11 +15,42 @@ letters = ["q", "w", "e", "r", "t", "y", "u", "i", "o",
 numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 symbols = ["!", "@", "#", "$", "%", "^", "&", "*"]
 
+pool = [""]
+required = [""]
 
-def show_message():
-    showinfo(title='result', message='You agreed' if agreement_var.get() else 'you didnt agree')
+upper_pool = letters
+lower_pool = letters
+num_pool = numbers
+sym_pool = symbols
 
-agreement_var = tk.BooleanVar()
+def upper_case():
+    if agreement_var1.get():
+        pool.append(upper_pool)
+        required.append(upper_pool)
+        print("upper")
+
+def lower_case():
+    if agreement_var2.get():
+        pool.append(lower_pool)
+        required.append(lower_pool)
+        print('lower')
+
+def numbers():
+    if agreement_var3.get():
+        pool.append(num_pool)
+        required.append(num_pool)
+        print('nums')
+
+def symbols():
+    if agreement_var4.get():
+        pool.append(sym_pool)
+        required.append(sym_pool)
+        print('syms')
+
+agreement_var1 = tk.BooleanVar()
+agreement_var2 = tk.BooleanVar()
+agreement_var3 = tk.BooleanVar()
+agreement_var4 = tk.BooleanVar()
 
 def password_gen():
     random.shuffle(letters)
@@ -49,13 +82,13 @@ canvas.place(x=50, y=50)
 
 button = tk.Button(window, width=15, text='generate', command=password)
 button.place(x=240, y=455)
-checkbox = ttk.Checkbutton(window, text="upperCase", command=show_message, variable=agreement_var)
+checkbox = ttk.Checkbutton(window, text="upperCase", command=upper_case, variable=agreement_var1)
 checkbox.place(x=170, y=200)
-checkbox2 = ttk.Checkbutton(window, text="lowerCase")
+checkbox2 = ttk.Checkbutton(window, text="lowerCase", command=lower_case, variable=agreement_var2)
 checkbox2.place(x=350, y=200)
-checkbox3 = ttk.Checkbutton(window, text="numbers")
+checkbox3 = ttk.Checkbutton(window, text="numbers", command=numbers, variable=agreement_var3)
 checkbox3.place(x=170, y=300)
-checkbox4 = ttk.Checkbutton(window, text="symbols")
+checkbox4 = ttk.Checkbutton(window, text="symbols", command=symbols, variable=agreement_var4)
 checkbox4.place(x=350, y=300)
 
 draw_square()
