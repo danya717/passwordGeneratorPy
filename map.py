@@ -27,9 +27,9 @@ print(result)
 
 
 #2
-# chars = ["A", "B", "C", "D", "E", "F"]
-# lowercase = list(map(lower, chars))
-# print(lowercase)
+chars = ["A", "B", "C", "D", "E", "F"]
+lowercase = list(map(str.lower, chars))
+print(lowercase)
 
 #3
 words = ["cat", "dog", "apple"]
