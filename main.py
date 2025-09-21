@@ -1,9 +1,7 @@
 import tkinter as tk
 import random
-
-from click import command
-from tkinter import ttk
-from tkinter.messagebox import showinfo
+from tkinter import ttk, OptionMenu
+from tkinter import StringVar
 
 window = tk.Tk()
 window.title = 'passwordGenerator'
@@ -15,13 +13,19 @@ letters = ["q", "w", "e", "r", "t", "y", "u", "i", "o",
 numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 symbols = ["!", "@", "#", "$", "%", "^", "&", "*"]
 
-pool = [""]
-required = [""]
+choices = ["4", "6", "8"]
+variable = StringVar(window)
+variable.set("4")
 
-upper_pool = letters
+pool = []
+required = []
+
+upper_pool = list(map(str.upper, letters))
 lower_pool = letters
 num_pool = numbers
 sym_pool = symbols
+
+length = 10
 
 def upper_case():
     if agreement_var1.get():
@@ -52,9 +56,23 @@ agreement_var2 = tk.BooleanVar()
 agreement_var3 = tk.BooleanVar()
 agreement_var4 = tk.BooleanVar()
 
+
+
+
 def password_gen():
-    random.shuffle(letters)
-    print(letters)
+    random.shuffle(num_pool)
+    random.shuffle(upper_pool)
+    random.shuffle(lower_pool)
+    random.shuffle(sym_pool)
+    password = required
+    while len(password) == length:
+        # print(password)
+        password.append(symbols(pool))
+    return password
+
+def password_text():
+    color = 'white'
+    canvas.create_text((250, 379), text=f'{password_gen()}', fill=color, font=(20))
 
 def draw_square():
     color = 'gold'
@@ -73,14 +91,12 @@ def draw_text():
     color = 'red'
     canvas.create_text((250, 80), text='PASSWORD GENERATOR', font=("Helvetica", 20, "bold"), fill=color)
 
-def password():
-    color = 'white'
-    canvas.create_text((250, 379), text=f'{password_gen()}', font=("Helvetica", 20), fill=color)
+
 
 canvas = tk.Canvas(window, bg='white', width=500, height=500)
 canvas.place(x=50, y=50)
 
-button = tk.Button(window, width=15, text='generate', command=password)
+button = tk.Button(window, width=15, text='generate', command=password_text)
 button.place(x=240, y=455)
 checkbox = ttk.Checkbutton(window, text="upperCase", command=upper_case, variable=agreement_var1)
 checkbox.place(x=170, y=200)
@@ -90,6 +106,10 @@ checkbox3 = ttk.Checkbutton(window, text="numbers", command=numbers, variable=ag
 checkbox3.place(x=170, y=300)
 checkbox4 = ttk.Checkbutton(window, text="symbols", command=symbols, variable=agreement_var4)
 checkbox4.place(x=350, y=300)
+
+option = OptionMenu(window, variable, *choices)
+option.place(x=170, y=350)
+
 
 draw_square()
 draw_rectangle()
