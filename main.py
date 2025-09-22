@@ -13,10 +13,6 @@ letters = ["q", "w", "e", "r", "t", "y", "u", "i", "o",
 numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 symbols = ["!", "@", "#", "$", "%", "^", "&", "*"]
 
-choices = ["4", "6", "8"]
-variable = StringVar(window)
-variable.set("4")
-
 pool = []
 required = []
 
@@ -56,8 +52,18 @@ agreement_var2 = tk.BooleanVar()
 agreement_var3 = tk.BooleanVar()
 agreement_var4 = tk.BooleanVar()
 
+def select(choice):
+    choice = variable.get()
+    if choice == "4":
+        print("choice is 4")
+    if choice == "6":
+        print("choice is 6")
+    if choice == "8":
+        print("choice is 8")
 
-
+options = ["4", "6", "8"]
+variable = StringVar()
+variable.set(options[2])
 
 def password_gen():
     random.shuffle(num_pool)
@@ -69,6 +75,7 @@ def password_gen():
         # print(password)
         password.append(symbols(pool))
     return password
+
 
 def password_text():
     color = 'white'
@@ -98,6 +105,7 @@ canvas.place(x=50, y=50)
 
 button = tk.Button(window, width=15, text='generate', command=password_text)
 button.place(x=240, y=455)
+
 checkbox = ttk.Checkbutton(window, text="upperCase", command=upper_case, variable=agreement_var1)
 checkbox.place(x=170, y=200)
 checkbox2 = ttk.Checkbutton(window, text="lowerCase", command=lower_case, variable=agreement_var2)
@@ -107,9 +115,8 @@ checkbox3.place(x=170, y=300)
 checkbox4 = ttk.Checkbutton(window, text="symbols", command=symbols, variable=agreement_var4)
 checkbox4.place(x=350, y=300)
 
-option = OptionMenu(window, variable, *choices)
-option.place(x=170, y=350)
-
+option_menu = OptionMenu(window, variable, *options, command=select)
+option_menu.place(x=170, y=350)
 
 draw_square()
 draw_rectangle()
