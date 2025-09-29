@@ -6,7 +6,7 @@ from tkinter import StringVar
 
 window = tk.Tk()
 window.title = "passwordGenerator"
-window.geometry('600x600')
+window.geometry('300x300')
 
 letters = ["q", "w", "e", "r", "t", "y", "u", "i", "o",
            "p", "a", "s", "d", "f", "g", "h", "j", "k", "l",
@@ -64,19 +64,20 @@ def select(choice):
     if choice == "8":
         print("choice is 8")
 
-options = ["4", "6", "8"]
+options = ["4", "6", "8", "10"]
 variable = StringVar()
 variable.set(options[2])
+password = []
 
 def password_gen():
+    global password
     refresh_pools()
+    password = []
     random.shuffle(num_pool)
     random.shuffle(upper_pool)
     random.shuffle(lower_pool)
     random.shuffle(sym_pool)
-
     length = int(variable.get())
-    password = []
     for group in required:
         password.append(random.choice(group))
 
@@ -96,56 +97,57 @@ def password_gen():
 def password_text():
     canvas.delete('pwd')
     color = 'white'
-    canvas.create_text((250, 379), text=f'{password_gen()}', fill=color, font=(20), tags=('pwd',))
+    canvas.create_text((150, 210), text=f'{password_gen()}', fill=color, font=(20), tags=('pwd',))
 
 def copy_btn():
-    text = password_gen()
+    text = ''.join(password)
     window.clipboard_clear()
     window.clipboard_append(text)
-    messagebox.showinfo("Succes!", "text has been copied to clipboard")
+    messagebox.showinfo("Succes!", "password has been copied to clipboard")
     # print('text has been copied')
 
 def draw_square():
-    color = 'gold'
+    color = 'purple'
     color_border = 'red'
-    d = 400
-    x = 50
-    y = 50
+    d = 300
+    x = 0
+    y = 0
     canvas.create_rectangle(x, y, x+d, y+d, fill=color, outline=color_border)
 
 def draw_rectangle():
     color = 'gray'
     border_color = 'black'
-    canvas.create_rectangle(400, 350, 100, 400, fill=color, outline=border_color)
+    canvas.create_rectangle(280, 190, 20, 230, fill=color, outline=border_color)
 
 def draw_text():
-    color = 'red'
-    canvas.create_text((250, 80), text='PASSWORD GENERATOR', font=("Helvetica", 20, "bold"), fill=color)
+    color = 'black'
+    canvas.create_text((150, 30), text='PASSWORD GENERATOR', font=("Helvetica", 17, "bold"), fill=color)
 
-canvas = tk.Canvas(window, bg='white', width=500, height=500)
-canvas.place(x=50, y=50)
+canvas = tk.Canvas(window, bg='white', width=400, height=400)
+canvas.place(x=0, y=0)
 
 button = tk.Button(window, width=15, text='generate', command=password_text)
-button.place(x=170, y=455)
+button.place(x=35, y=240)
 
 checkbox = ttk.Checkbutton(window, text="upperCase", command=upper_case, variable=agreement_var1)
-checkbox.place(x=170, y=200)
+checkbox.place(x=30, y=100)
 checkbox2 = ttk.Checkbutton(window, text="lowerCase", command=lower_case, variable=agreement_var2)
-checkbox2.place(x=350, y=200)
+checkbox2.place(x=190, y=100)
 checkbox3 = ttk.Checkbutton(window, text="numbers", command=numbers, variable=agreement_var3)
-checkbox3.place(x=170, y=300)
+checkbox3.place(x=30, y=150)
 checkbox4 = ttk.Checkbutton(window, text="symbols", command=symbols, variable=agreement_var4)
-checkbox4.place(x=350, y=300)
+checkbox4.place(x=190, y=150)
 
 option_menu = OptionMenu(window, variable, *options, command=select)
-option_menu.place(x=170, y=350)
+option_menu.place(x=30, y=55)
 
 button2 = ttk.Button(window, text="Copy", command=copy_btn)
-button2.place(x=350, y=455)
+button2.place(x=190, y=240)
 
 
 draw_square()
 draw_rectangle()
 draw_text()
 
+window.resizable(width=False, height=False)
 window.mainloop()
